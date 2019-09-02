@@ -33,3 +33,9 @@ Um arquivo *.png aparecerá na pasta com o histograma gerado e também surgirá 
 Imagem de referência disponível no artigo [Observation of sequential Upsilon suppression in PbPb collisions](https://arxiv.org/abs/1208.2826).
 
 ![](referencia.png)
+
+## Exemplo de uso
+
+Com o código e os arquivos fornecidos, cconseguimos este resultado.
+
+![](InvariantMasspp.png)
