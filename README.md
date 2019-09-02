@@ -17,7 +17,7 @@ Note que os dados `PbPb` não estão sendo utilizados, pois o código está come
 
 ## Configuração de desenvolvimento
 
-É necessário ter o [ROOT](https://root.cern.ch/root/html534/guides/users-guide/InstallandBuild.html), software do CERN, com o `cmake` instalado na sua máquina para rodar o código.
+É necessário ter o [ROOT](https://root.cern.ch/root/html534/guides/users-guide/InstallandBuild.html), software do CERN, com o `cmake` instalado na sua máqureferencia.pngina para rodar o código.
 
 Vá na pasta onde se encontra os arquivos baixados pelo terminal e digite:
 
@@ -32,4 +32,4 @@ Um arquivo *.png aparecerá na pasta com o histograma gerado e também surgirá 
 
 Imagem de referência disponível no artigo [Observation of sequential Upsilon suppression in PbPb collisions](https://arxiv.org/abs/1208.2826).
 
-![](referencia.png)
+![](massFit_pp.pdf)
