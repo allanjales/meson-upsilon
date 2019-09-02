@@ -287,20 +287,32 @@ void invariantmasspp(){
 
 	//Signal Fitting
 	TF1 *fs = new TF1("fs",Signal,7.,14.,15);
-	fs->SetNpx(1000);	//Resolution of background fit function
-	fs->SetParameters(par);	//Get only background part
+	fs->SetNpx(1000);				//Resolution of background fit function
+	fs->SetParameters(par);			//Get only background part
 	fs->SetLineColor(kMagenta); 	//Fit Color
-	fs->SetLineStyle(kSolid);	//Fit Style
-	fs->Draw("same");	//Draws
+	fs->SetLineStyle(kSolid);		//Fit Style
+	fs->Draw("same");				//Draws
 
 	//Background Fitting
 	TF1 *fb = new TF1("fb",Background,7.,14.,4);
-	fb->SetNpx(1000);	//Resolution of background fit function
-	fb->SetParameters(&par[9]);	//Get only background part
-	fb->SetLineColor(kBlue); 	//Fit Color
-	fb->SetLineStyle(kDashed);	//Fit Style
-	fb->SetFillColor(kBlue);
-	fb->Draw("same");	//Draws
+	fb->SetNpx(1000);				//Resolution of background fit function
+	fb->SetParameters(&par[9]);		//Get only background part
+	fb->SetLineColor(kBlue); 		//Fit Color
+	fb->SetLineStyle(kDashed);		//Fit Style
+	fb->Draw("same");				//Draws
+	
+
+	//Y(1S) Fitting	(for integration purpose)
+	TF1 *f1 = new TF1("f1",Gaus,7.,14.,3);
+	f1->SetParameters(par);			//Get only Y(1S) part
+	
+	//Y(1S) Fitting
+	TF1 *f2 = new TF1("f2",Gaus,7.,14.,3);
+	f2->SetParameters(&par[3]);		//Get only Y(2S) part
+	
+	//Y(1S) Fitting
+	TF1 *f3 = new TF1("f3",Gaus,7.,14.,3);
+	f3->SetParameters(&par[6]);		//Get only Y(3S) part
 	
 
 
@@ -334,6 +346,16 @@ void invariantmasspp(){
 	cout << endl;
 	cout << "Chi2/ndf = " << f->GetChisquare()/f->GetNDF() << endl;
 	cout << endl;
+
+	//Integral da área da função sinal Intergral(intervalo)*quantidade de bins por unidade
+	cout << "Área do Y(1S) = " << f1->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << "Área do Y(2S) = " << f2->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << "Área do Y(3S) = " << f3->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << "Área de sinal = " << fs->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << "Área de fundo = " << fb->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << endl;
+	cout << "Área total    = " << f ->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << endl;	
 
 }
 
