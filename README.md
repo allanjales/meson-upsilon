@@ -39,3 +39,10 @@ Imagem de referência disponível no artigo [Observation of sequential Upsilon s
 Com o código e os arquivos fornecidos, cconseguimos este resultado.
 
 ![](InvariantMasspp.png)
+
+## Mudança na versão
+
+* INTEGRACAO
+    * Melhoria nos comentários
+    * ADD: Um fit separado para cada sinal `f1`,`f2`,`f3`
+    * ADD: Área dos ajuste no terminal
