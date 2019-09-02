@@ -1,21 +1,19 @@
-# Análise de dados em colisões pp
+# Introdução à Análise de Dados
 
-> Código com o objetivo de montar um histograma para massa invariante na colisão pp e indentificar os três estados da partícula méson-upsilon
+> A partir dos dados públicos de colisões pp no LHC o código monta um histograma para massa invariante dos pares de múons com indentificar os três estados do méson-upsilon e ajustar uma função sobre.
 
-## Importante
+## Importante!
 
 Embora o código também tenha sua parte para analisar os dados da colisão chumbo-chumbo (PbPb), elas não se encontram finalizadas!!!
 
-
-## Arquivos extras necessários
+## Arquivos necessários
 
 Os dados a serem analisados serão dos arquivos:
 * upsilonTree_2p76TeV_pp_data.root
 * upsilonTree_2p76TeV_PbPb_data.root
 
-Os arquivos extras e mais alguns adicionais podem ser encontrados [clicando aqui](https://drive.google.com/drive/folders/1DBPiqTYC6yJUPc9688nM8Azrw3UIo_YV)!
-Note que os dados `PbPb` não estão sendo utilizados, pois o código está comentado nessa análise.
-
+Os arquivos extras e mais alguns adicionais podem ser encontrados no google drive [clicando aqui](https://drive.google.com/drive/folders/1DBPiqTYC6yJUPc9688nM8Azrw3UIo_YV)!
+Note que os dados `PbPb` não estão sendo utilizados, pois o código está comentado nesta análise.
 
 ## Configuração de desenvolvimento
 
