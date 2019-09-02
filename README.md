@@ -26,7 +26,7 @@ $ root -l -n
 root[0] .x exercicio1.C
 ```
 
-Um arquivo *.png aparecerá na pasta com o histograma gerado e também surgirá na sua tela.
+Um arquivo `InvariantMasspp.png` aparecerá na pasta com o histograma gerado e também surgirá na sua tela.
 
 ## Referência
 
