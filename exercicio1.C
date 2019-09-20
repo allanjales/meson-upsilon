@@ -286,10 +286,18 @@ void invariantmasspp(){
 	f->SetParameter(4, 10.02326); //PDG value
 	f->SetParameter(5, 0.109);
 
+	//Relação fornecida pelo slide
+	//f->SetParameter(5, f->GetParameter(4)/f->GetParameter(1)*f->GetParameter(2));
+
+	// cout << f->GetParameter(4)/f->GetParameter(1)*f->GetParameter(2) <<endl;
+
 	//Values Y(3S)
 	f->SetParameter(6, 60.7);
 	f->SetParameter(7, 10.3552); //PDG value
 	f->SetParameter(8, 0.08);
+
+	//Relação fornecida pelo slide
+	//f->SetParameter(8, f->GetParameter(7)/f->GetParameter(4)*f->GetParameter(5));
 
 	//Values Background
 	f->SetParameter(9, -1205.0);
