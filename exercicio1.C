@@ -4,8 +4,6 @@
 !--------------------------------	
 !autor: Allan Jales
 !--------------------------------
-!v1.5:	Troca da função de sinal para Gaussiana
-!--------------------------------
 */
 
 #include "TROOT.h"
@@ -190,16 +188,18 @@ void invariantmasspp(){
 	float muPlusPt;
 	float muMinusPt;
 	int QQsign;
+	float upsRapidity;
 
 	int i;	//Itineration variable
 
 	//Assign variables
 	upsilonTree->SetBranchAddress("invariantMass",	&invariantMass);
-	upsilonTree->SetBranchAddress("muPlusPt",	&muPlusPt);
-	upsilonTree->SetBranchAddress("muMinusPt",	&muMinusPt);
-	upsilonTree->SetBranchAddress("QQsign",		&QQsign);
+	upsilonTree->SetBranchAddress("muPlusPt",		&muPlusPt);
+	upsilonTree->SetBranchAddress("muMinusPt",		&muMinusPt);
+	upsilonTree->SetBranchAddress("QQsign",			&QQsign);
+	upsilonTree->SetBranchAddress("upsRapidity",	&upsRapidity);
 
-	TH1F *h1 = new TH1F("InvariantMasspp","Candidados a Upsilon em colis#tilde{o}es pp;Massa_{#mu^{+}#mu^{-}} (GeV/c^{2});Eventos / (0.05 GeV/c^{2})",130,7.5,14.);	//Creates histogram
+	TH1F *h1 = new TH1F("InvariantMasspp","Candidados a Upsilon em colis#tilde{o}es pp;Massa_{#mu^{+}#mu^{-}} (GeV/c^{2});Eventos / (0.1 GeV/c^{2})",65,7.5,14.);	//Creates histogram
 
 	for (i = 0; i < upsilonTree->GetEntries(); i++){	//Loop between the components
 	
@@ -208,6 +208,8 @@ void invariantmasspp(){
 		if (muPlusPt <= 4 && muMinusPt <= 4) continue;	//If the pair hasn't Pt > 4 GeV, skip
 
 		if (QQsign != 0) continue;			//If hasn't opposite charge, skip
+
+		if (upsRapidity >= 2.4) continue;	//Rapidity cut
 
 		h1->Fill(invariantMass);			//Fill the histogram then
 	}
@@ -246,21 +248,23 @@ void invariantmasspp(){
 	f->SetParName(12,	"Pol3(Bg) a");
 	f->SetNpx(1000);	//Resolution of fit function
 
+	//For 130 bins
+	/*
 	//Values Y(1S)
-	f->SetParameter(0, 510.0);
-	f->FixParameter(0, 300.0);
-	f->FixParameter(1, 9.4603); //PDG value
-	f->SetParameter(2, 0.12);
-	f->FixParameter(2, 0.097);
+	//f->SetParameter(0, 510.0);
+	//f->FixParameter(0, 300.0);
+	f->SetParameter(1, 9.4603); //PDG value
+	//f->SetParameter(2, 0.12);
+	f->SetParameter(2, 0.097);
 
 	//Values Y(2S)
 	f->SetParameter(3, 112.0);
-	f->FixParameter(4, 10.02326); //PDG value
+	f->SetParameter(4, 10.02326); //PDG value
 	f->SetParameter(5, 0.102);
 
 	//Values Y(3S)
 	f->SetParameter(6, 45.3);
-	f->FixParameter(7, 10.3552); //PDG value
+	f->SetParameter(7, 10.3552); //PDG value
 	f->SetParameter(8, 0.09);
 
 	//Values Background
@@ -268,6 +272,37 @@ void invariantmasspp(){
 	f->SetParameter(10, 385.7);
 	f->SetParameter(11, -36.3);
 	f->SetParameter(12, 1.1);
+	*/
+
+	//For 65 bins
+
+	//Values Y(1S)
+	f->SetParameter(0, 510.0);
+	f->SetParameter(1, 9.4603); //PDG value
+	f->SetParameter(2, 0.096);
+
+	//Values Y(2S)
+	f->SetParameter(3, 177.0);
+	f->SetParameter(4, 10.02326); //PDG value
+	f->SetParameter(5, 0.109);
+
+	//Values Y(3S)
+	f->SetParameter(6, 60.7);
+	f->SetParameter(7, 10.3552); //PDG value
+	f->SetParameter(8, 0.08);
+
+	//Values Background
+	f->SetParameter(9, -1205.0);
+	f->SetParameter(10, 385.7);
+	f->SetParameter(11, -36.3);
+	f->SetParameter(12, 1.1);
+
+	//PDG
+	/*
+	f->FixParameter(1, 9.4603);
+	f->FixParameter(4, 10.02326);
+	f->FixParameter(7, 10.3552);
+	*/
 
 	f->SetLineColor(kBlue); //Fit Color
 
@@ -326,8 +361,8 @@ void invariantmasspp(){
 	tx->SetTextFont(42);
 	tx->SetNDC(kTRUE);
 
-	tx->DrawLatex(0.6,0.60,Form("P^{#mu^{+}}_{T} > 3.5 GeV/c"));
-	tx->DrawLatex(0.6,0.54,Form("P^{#mu^{-}}_{T} > 4 GeV/c"));
+	tx->DrawLatex(0.6,0.60,Form("P^{#mu_{1}}_{T} > 3.5 GeV/c"));
+	tx->DrawLatex(0.6,0.54,Form("P^{#mu_{2}}_{T} > 4.0 GeV/c"));
 	tx->DrawLatex(0.6,0.48,Form("#chi^{2}/ndf = %g/%d",fitr->Chi2(),fitr->Ndf()));
 
 	//Mostra intregrais (em cima, no lado da legenda)
