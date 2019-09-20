@@ -199,7 +199,7 @@ void invariantmasspp(){
 	upsilonTree->SetBranchAddress("muMinusPt",	&muMinusPt);
 	upsilonTree->SetBranchAddress("QQsign",		&QQsign);
 
-	TH1F *h1 = new TH1F("InvariantMasspp","Massa Invariante para pp;Massa_{#mu^{+}#mu^{-}} (GeV/c^{2});Eventos / (0,05 GeV/c^{2})",130,7.5,14.);	//Creates histogram
+	TH1F *h1 = new TH1F("InvariantMasspp","Candidados a Upsilon em colis#tilde{o}es pp;Massa_{#mu^{+}#mu^{-}} (GeV/c^{2});Eventos / (0.05 GeV/c^{2})",130,7.5,14.);	//Creates histogram
 
 	for (i = 0; i < upsilonTree->GetEntries(); i++){	//Loop between the components
 	
@@ -287,20 +287,32 @@ void invariantmasspp(){
 
 	//Signal Fitting
 	TF1 *fs = new TF1("fs",Signal,7.,14.,15);
-	fs->SetNpx(1000);	//Resolution of background fit function
-	fs->SetParameters(par);	//Get only background part
+	fs->SetNpx(1000);				//Resolution of background fit function
+	fs->SetParameters(par);			//Get only background part
 	fs->SetLineColor(kMagenta); 	//Fit Color
-	fs->SetLineStyle(kSolid);	//Fit Style
-	fs->Draw("same");	//Draws
+	fs->SetLineStyle(kSolid);		//Fit Style
+	fs->Draw("same");				//Draws
 
 	//Background Fitting
 	TF1 *fb = new TF1("fb",Background,7.,14.,4);
-	fb->SetNpx(1000);	//Resolution of background fit function
-	fb->SetParameters(&par[9]);	//Get only background part
-	fb->SetLineColor(kBlue); 	//Fit Color
-	fb->SetLineStyle(kDashed);	//Fit Style
-	fb->SetFillColor(kBlue);
-	fb->Draw("same");	//Draws
+	fb->SetNpx(1000);				//Resolution of background fit function
+	fb->SetParameters(&par[9]);		//Get only background part
+	fb->SetLineColor(kBlue); 		//Fit Color
+	fb->SetLineStyle(kDashed);		//Fit Style
+	fb->Draw("same");				//Draws
+	
+
+	//Y(1S) Fitting	(for integration purpose)
+	TF1 *f1 = new TF1("f1",Gaus,7.,14.,3);
+	f1->SetParameters(par);			//Get only Y(1S) part
+	
+	//Y(1S) Fitting
+	TF1 *f2 = new TF1("f2",Gaus,7.,14.,3);
+	f2->SetParameters(&par[3]);		//Get only Y(2S) part
+	
+	//Y(1S) Fitting
+	TF1 *f3 = new TF1("f3",Gaus,7.,14.,3);
+	f3->SetParameters(&par[6]);		//Get only Y(3S) part
 	
 
 
@@ -314,13 +326,23 @@ void invariantmasspp(){
 	tx->SetTextFont(42);
 	tx->SetNDC(kTRUE);
 
-	tx->DrawLatex(0.6,0.6,Form("P^{#mu^{+}}_{T} > 3.5 GeV/c"));
-	tx->DrawLatex(0.6,0.52,Form("P^{#mu^{-}}_{T} > 4 GeV/c"));
-	tx->DrawLatex(0.6,0.44,Form("#chi^{2}/ndf = %g/%d",fitr->Chi2(),fitr->Ndf()));
-	
+	tx->DrawLatex(0.6,0.60,Form("P^{#mu^{+}}_{T} > 3.5 GeV/c"));
+	tx->DrawLatex(0.6,0.54,Form("P^{#mu^{-}}_{T} > 4 GeV/c"));
+	tx->DrawLatex(0.6,0.48,Form("#chi^{2}/ndf = %g/%d",fitr->Chi2(),fitr->Ndf()));
+
+	//Mostra intregrais (em cima, no lado da legenda)
+	//tx->DrawLatex(0.5,0.86,Form("%3.0f #Upsilon(1S)",f1->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+	//tx->DrawLatex(0.5,0.80,Form("%3.0f #Upsilon(2S)",f2->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+	//tx->DrawLatex(0.5,0.74,Form("%5.0f #Upsilon(3S)",f3->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+
+	//Mostra intregrais (em baixo)
+	tx->DrawLatex(0.6,0.42,Form("%3.0f cand. #Upsilon(1S)",f1->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+	tx->DrawLatex(0.6,0.36,Form("%3.0f cand. #Upsilon(2S)",f2->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+	tx->DrawLatex(0.6,0.30,Form("%3.0f cand. #Upsilon(3S)",f3->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+
 	//Mostra legenda
 	//TLegend *l = new TLegend(0.72,0.84,0.90,0.90);
-	//TLegend *l = new TLegend(0.72,0.78,0.90,0.90);
+	//TLegend *l = new TLegend(0.72,0.78,0.90,0.90);'	'
 	TLegend *l = new TLegend(0.72,0.68,0.90,0.90);
 	l->SetTextSize(0.04);
 	l->AddEntry(h1,"#Upsilon#rightarrow#mu^{+}#mu^{-}","lp");
@@ -334,6 +356,16 @@ void invariantmasspp(){
 	cout << endl;
 	cout << "Chi2/ndf = " << f->GetChisquare()/f->GetNDF() << endl;
 	cout << endl;
+
+	//Integral da área da função sinal Intergral(intervalo)*quantidade de bins por unidade
+	cout << "Área do Y(1S) = " << f1->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << "Área do Y(2S) = " << f2->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << "Área do Y(3S) = " << f3->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << "Área de sinal = " << fs->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << "Área de fundo = " << fb->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << endl;
+	cout << "Área total    = " << f ->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0)) << endl;
+	cout << endl;	
 
 }
 
