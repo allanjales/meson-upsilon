@@ -199,7 +199,7 @@ void invariantmasspp(){
 	upsilonTree->SetBranchAddress("muMinusPt",	&muMinusPt);
 	upsilonTree->SetBranchAddress("QQsign",		&QQsign);
 
-	TH1F *h1 = new TH1F("InvariantMasspp","Massa Invariante para pp;Massa_{#mu^{+}#mu^{-}} (GeV/c^{2});Eventos / (0,05 GeV/c^{2})",130,7.5,14.);	//Creates histogram
+	TH1F *h1 = new TH1F("InvariantMasspp","Candidados a Upsilon em colis#tilde{o}es pp;Massa_{#mu^{+}#mu^{-}} (GeV/c^{2});Eventos / (0.05 GeV/c^{2})",130,7.5,14.);	//Creates histogram
 
 	for (i = 0; i < upsilonTree->GetEntries(); i++){	//Loop between the components
 	
@@ -326,13 +326,23 @@ void invariantmasspp(){
 	tx->SetTextFont(42);
 	tx->SetNDC(kTRUE);
 
-	tx->DrawLatex(0.6,0.6,Form("P^{#mu^{+}}_{T} > 3.5 GeV/c"));
-	tx->DrawLatex(0.6,0.52,Form("P^{#mu^{-}}_{T} > 4 GeV/c"));
-	tx->DrawLatex(0.6,0.44,Form("#chi^{2}/ndf = %g/%d",fitr->Chi2(),fitr->Ndf()));
-	
+	tx->DrawLatex(0.6,0.60,Form("P^{#mu^{+}}_{T} > 3.5 GeV/c"));
+	tx->DrawLatex(0.6,0.54,Form("P^{#mu^{-}}_{T} > 4 GeV/c"));
+	tx->DrawLatex(0.6,0.48,Form("#chi^{2}/ndf = %g/%d",fitr->Chi2(),fitr->Ndf()));
+
+	//Mostra intregrais (em cima, no lado da legenda)
+	//tx->DrawLatex(0.5,0.86,Form("%3.0f #Upsilon(1S)",f1->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+	//tx->DrawLatex(0.5,0.80,Form("%3.0f #Upsilon(2S)",f2->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+	//tx->DrawLatex(0.5,0.74,Form("%5.0f #Upsilon(3S)",f3->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+
+	//Mostra intregrais (em baixo)
+	tx->DrawLatex(0.6,0.42,Form("%3.0f cand. #Upsilon(1S)",f1->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+	tx->DrawLatex(0.6,0.36,Form("%3.0f cand. #Upsilon(2S)",f2->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+	tx->DrawLatex(0.6,0.30,Form("%3.0f cand. #Upsilon(3S)",f3->Integral(h1->GetXaxis()->GetXmin(), h1->GetXaxis()->GetXmax()) * (1/h1->GetBinWidth(0))));
+
 	//Mostra legenda
 	//TLegend *l = new TLegend(0.72,0.84,0.90,0.90);
-	//TLegend *l = new TLegend(0.72,0.78,0.90,0.90);
+	//TLegend *l = new TLegend(0.72,0.78,0.90,0.90);'	'
 	TLegend *l = new TLegend(0.72,0.68,0.90,0.90);
 	l->SetTextSize(0.04);
 	l->AddEntry(h1,"#Upsilon#rightarrow#mu^{+}#mu^{-}","lp");
