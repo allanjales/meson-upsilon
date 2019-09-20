@@ -46,3 +46,6 @@ Com o código e os arquivos fornecidos, cconseguimos este resultado.
     * Melhoria nos comentários
     * ADD: Um fit separado para cada sinal `f1`,`f2`,`f3`
     * ADD: Área dos ajuste no terminal
+* DESFIXAÇO
+   * REMOVIDO: parmetros fixados
+   * Observado melhor chi-quadrado
